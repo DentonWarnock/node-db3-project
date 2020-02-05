@@ -26,18 +26,30 @@ function findSteps(id) {
 async function add(newScheme) {
   return db("schemes")
     .insert(newScheme)
-    .then(([newId]) => {
+    .then(([id]) => {
       // return newId;
-      return db("schemes")
-        .where({ id: newId })
-        .first();
+      // return db("schemes")
+      //   .where({ id })
+      //   .first();
+      return findById(id);
     })
     .catch(err => console.log(err.message));
 }
 
-function update() {}
+function update(changes, id) {
+  return db("schemes")
+    .where({ id })
+    .update(changes)
+    .then(() => {
+      return findById(id);
+    });
+}
 
-function remove() {}
+function remove(id) {
+  return db("schemes")
+    .where({ id })
+    .del();
+}
 
 module.exports = {
   find,
